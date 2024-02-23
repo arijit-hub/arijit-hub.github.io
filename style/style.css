@@ -18,8 +18,8 @@ body{
     grid-area: introimg;
     align-self: center;
     justify-self: center;
-    max-width: 100%;
-    max-height: 100%; /* Set a maximum height */
+    max-width: 80%;
+    max-height: 80%; /* Set a maximum height */
     height: auto;
     width: auto;
 }
@@ -137,16 +137,16 @@ body{
     grid-area: talklink1;
     align-self: flex-start;
     justify-self: center;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     filter: grayscale(100%) brightness(0.94);
+    text-align: center;
 }
 
 .talkimg1{
     align-self: flex-start;
     justify-self: center;
-    width: 100%;
-    height: 100%;
+    text-align: center;
     filter: grayscale(100%) brightness(0.94);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 100%;
@@ -159,22 +159,22 @@ body{
     grid-area: talklink2;
     align-self: flex-start;
     justify-self: center;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     filter: grayscale(100%) brightness(0.94);
+    text-align: center;
 }
 
 .talkimg2{
     align-self: flex-start;
     justify-self: center;
-    width: 100%;
-    height: 100%;
     filter: grayscale(100%) brightness(0.94);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     max-height: 100%; /* Set a maximum height */
     height: auto;
     width: auto;
+    text-align: center;
 }
 
 .teaching{
