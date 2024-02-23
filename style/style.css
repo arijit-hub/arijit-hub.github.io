@@ -140,7 +140,6 @@ body{
     width: 100%;
     height: 100%;
     filter: grayscale(100%) brightness(0.94);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .talkimg1{
@@ -163,7 +162,6 @@ body{
     width: 100%;
     height: 100%;
     filter: grayscale(100%) brightness(0.94);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .talkimg2{
@@ -228,12 +226,20 @@ hr{
 }
 
 
-@media (max-width: 1580px){
+@media (max-width: 1480px){
     .intro{
-        grid-template-columns: 0.5fr 2fr 0.1fr 2.5fr 0.5fr;
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
         grid-template-areas:
-        ". introimg . title ."
-        ". introimg . subtitle .";
+        ". . title . ."
+        ". . introimg . ."
+        ". . subtitle . .";
+        align-items: center;
+        text-align: center;
+    }
+
+    .intro__img{
+        max-width: 60%;
+        max-height: 60%;
     }
 
     .research{
@@ -273,11 +279,17 @@ hr{
         ". sectionheader sectionheader sectionheader ."
         ". . subtitle11 . ."
         ". . talklink1 . ."
-        ". . . . ."
         ". . subtitle12 . ."
         ". . talklink2 . .";
         text-align: center;
     }
+
+    .talks a{
+        width: 60%;
+        height: 60%;
+    }
+
+
 
     .teaching{
         grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
@@ -326,6 +338,12 @@ hr{
     .subtitle4{
         text-align: center;
         aspect-ratio: 1/0.1;
+    }
+
+    .intro a{
+        font-size: 20px;
+        color: black;
+        text-decoration: none;
     }
 
 }
