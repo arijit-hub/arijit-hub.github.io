@@ -228,7 +228,7 @@ hr{
 }
 
 
-@media (max-width: 1580px){
+@media (max-width: 799px){
     .intro{
         grid-template-columns: 0.5fr 2fr 0.1fr 2.5fr 0.5fr;
         grid-template-areas:
