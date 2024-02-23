@@ -20,8 +20,8 @@ body{
     justify-self: center;
     max-width: 80%;
     max-height: 80%; /* Set a maximum height */
-    height: auto;
-    width: auto;
+    /* height: auto;
+    width: auto; */
 }
 
 .title{
@@ -226,20 +226,32 @@ hr{
 }
 
 
-@media (max-width: 1480px){
+@media (max-width: 1380px){
     .intro{
-        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-columns: 0.5fr 0.3fr 0.5fr 3fr 0.5fr 0.3fr 0.5fr;
         grid-template-areas:
-        ". . title . ."
-        ". . introimg . ."
-        ". . subtitle . .";
+        ". . title title title . ."
+        ". . . introimg . . ."
+        ". . subtitle subtitle subtitle . .";
         align-items: center;
         text-align: center;
+        padding: 0px;
     }
 
     .intro__img{
         max-width: 60%;
         max-height: 60%;
+        margin: 0px;
+    }
+
+    .title{
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+
+    .subtitle{
+        padding: 0px;
+        margin-top: 0px;
     }
 
     .research{
@@ -298,15 +310,6 @@ hr{
         ". . subtitle1 . ."
         ". . subtitle2 . .";
         text-align: center;
-    }
-
-    .misc{
-        grid-template-columns: 0.5fr 1fr 0.15fr 1fr 0.15fr 1fr 0.15fr 1fr 0.5fr;
-        grid-template-areas:
-        ". sectionheader sectionheader sectionheader sectionheader sectionheader sectionheader sectionheader ."
-        ". subtitle1 . subtitle2 . subtitle3 . subtitle4 .";
-        text-align: center;
-        align-items: stretch;
     }
 
 
