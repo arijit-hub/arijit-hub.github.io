@@ -43,7 +43,7 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     align-items: center;
-    aspect-ratio: 1/0.3;
+    aspect-ratio: 1/0.4;
 }
 
 .subtitle2{
@@ -53,7 +53,7 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     align-items: center;
-    aspect-ratio: 1/0.3;
+    aspect-ratio: 1/0.4;
 }
 .subtitle3{
     grid-area: subtitle3;
@@ -62,7 +62,7 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     align-items: center;
-    aspect-ratio: 1/0.3;
+    aspect-ratio: 1/0.4;
 }
 
 .subtitle4{
@@ -72,7 +72,7 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     align-items: center;
-    aspect-ratio: 1/0.3;
+    aspect-ratio: 1/0.4;
 }
 
 .subtitle11{
