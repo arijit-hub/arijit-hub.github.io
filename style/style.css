@@ -1,0 +1,331 @@
+body{
+    font-family:'Consolas','Monaco','Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';
+    text-align: left;
+    background-color: #f0f0f0;
+}
+
+
+.intro{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 0.2fr 2fr 1.5fr;
+    grid-template-areas:
+    ". introimg . title ."
+    ". introimg . subtitle .";
+    margin-top: 20px;
+}
+
+.intro__img{
+    grid-area: introimg;
+    align-self: center;
+    justify-self: center;
+    max-width: 100%;
+    max-height: 100%; /* Set a maximum height */
+    height: auto;
+    width: auto;
+}
+
+.title{
+    grid-area: title;
+    align-self: flex-start;
+    background-color: black;
+    color: white;
+}
+
+.subtitle{
+    grid-area: subtitle;
+    align-self: flex-start;
+}
+
+.subtitle1{
+    grid-area: subtitle1;
+    align-self: flex-start;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.3;
+}
+
+.subtitle2{
+    grid-area: subtitle2;
+    align-self: flex-start;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.3;
+}
+.subtitle3{
+    grid-area: subtitle3;
+    align-self: flex-start;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.3;
+}
+
+.subtitle4{
+    grid-area: subtitle4;
+    align-self: flex-start;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.3;
+}
+
+.subtitle11{
+    grid-area: subtitle11;
+    align-self: flex-start;
+    text-align: center;
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.1;
+}
+
+.subtitle12{
+    grid-area: subtitle12;
+    align-self: flex-start;
+    text-align: center;
+    padding: 10px;
+    align-items: center;
+    aspect-ratio: 1/0.1;
+}
+
+.research{
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.2fr 1.5fr 1.5fr;
+    grid-auto-rows: 0.5fr 1fr 1fr;
+    grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". subtitle1 . subtitle2 ."
+        ". subtitle3 . subtitle4 .";
+}
+
+
+.education{
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.2fr 1.5fr 1.5fr;
+    grid-auto-rows: minmax(50px, auto);
+    grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". subtitle1 . subtitle2 .";
+}
+
+.exp{
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.2fr 1.5fr 1.5fr;
+    grid-auto-rows: minmax(50px, auto);
+    grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". subtitle1 . subtitle2 ."
+        ". subtitle3 . subtitle4 .";
+}
+
+.talks{
+    display: grid;
+    grid-template-columns: 1.5fr 1.4fr 0.4fr 1.4fr 1.5fr;
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". talklink1 . talklink2 ."
+        ". subtitle11 . subtitle12 .";
+}
+
+.talklink1{
+    grid-area: talklink1;
+    align-self: flex-start;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%) brightness(0.94);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.talkimg1{
+    align-self: flex-start;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%) brightness(0.94);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    max-height: 100%; /* Set a maximum height */
+    height: auto;
+    width: auto;
+}
+
+.talklink2{
+    grid-area: talklink2;
+    align-self: flex-start;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%) brightness(0.94);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.talkimg2{
+    align-self: flex-start;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%) brightness(0.94);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    max-height: 100%; /* Set a maximum height */
+    height: auto;
+    width: auto;
+}
+
+.teaching{
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.2fr 1.5fr 1.5fr;
+    grid-auto-rows: minmax(50px, auto);
+    grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". subtitle1 . subtitle2 .";
+}
+
+.sectionheader{
+    grid-area: sectionheader;
+    color: black;
+    text-align: center;
+}
+
+.timeframe{
+    grid-area: timeframe;
+    align-self: flex-start;
+    text-align: right;
+}
+
+.intro a{
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+}
+
+.talks a{
+    color: black;
+}
+
+hr{
+    border: 0;
+    height: 1.1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); /* Gradient line */
+    margin: 20px 0; /* Adjust margin as needed */
+}
+
+
+.footer {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px; /* Adjust margin as needed */
+    font-size: 14px;
+    padding: 10px; /* Add padding for better readability */
+}
+
+
+@media (max-width: 1580px){
+    .intro{
+        grid-template-columns: 0.5fr 2fr 0.1fr 2.5fr 0.5fr;
+        grid-template-areas:
+        ". introimg . title ."
+        ". introimg . subtitle .";
+    }
+
+    .research{
+        display: grid;
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-areas:
+            ". sectionheader sectionheader sectionheader ."
+            ". . subtitle1 . ."
+            ". . subtitle2 . ."
+            ". . subtitle3 . ."
+            ". . subtitle4 . .";
+    }
+
+    .education{
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". . subtitle1 . ."
+        ". . subtitle2 . .";
+        text-align: center;
+    }
+
+    .exp{
+        display: grid;
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-areas:
+            ". sectionheader sectionheader sectionheader ."
+            ". . subtitle1 . ."
+            ". . subtitle2 . ."
+            ". . subtitle3 . ."
+            ". . subtitle4 . .";
+    }
+
+    .talks{
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". . subtitle11 . ."
+        ". . talklink1 . ."
+        ". . . . ."
+        ". . subtitle12 . ."
+        ". . talklink2 . .";
+        text-align: center;
+    }
+
+    .teaching{
+        grid-template-columns: 0.5fr 0.3fr 4fr 0.3fr 0.5fr;
+        grid-template-areas:
+        ". sectionheader sectionheader sectionheader ."
+        ". . subtitle1 . ."
+        ". . subtitle2 . .";
+        text-align: center;
+    }
+
+    .misc{
+        grid-template-columns: 0.5fr 1fr 0.15fr 1fr 0.15fr 1fr 0.15fr 1fr 0.5fr;
+        grid-template-areas:
+        ". sectionheader sectionheader sectionheader sectionheader sectionheader sectionheader sectionheader ."
+        ". subtitle1 . subtitle2 . subtitle3 . subtitle4 .";
+        text-align: center;
+        align-items: stretch;
+    }
+
+
+    .sectionheader{
+        grid-area: sectionheader;
+        color: black;
+        text-align: center;
+    }
+
+    .body{
+        font-size: 12px;
+    }
+
+    .subtitle1{
+        text-align: center;
+        aspect-ratio: 1/0.1;
+    }
+
+    .subtitle2{
+        text-align: center;
+        aspect-ratio: 1/0.1;
+    }
+
+    .subtitle3{
+        text-align: center;
+        aspect-ratio: 1/0.1;
+    }
+
+    .subtitle4{
+        text-align: center;
+        aspect-ratio: 1/0.1;
+    }
+
+}
