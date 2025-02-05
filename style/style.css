@@ -72,7 +72,6 @@ h1, h2 {
     gap: 0.5rem;
     position: relative;
     color: var(--text-color);
-    border-bottom: 1px solid var(--border-color);
     margin-bottom: 2rem;
     padding-bottom: 0.5rem;
 }
@@ -148,6 +147,24 @@ a:hover {
     color: #ffffff;  /* Pure white in dark mode */
 }
 
+/* Light mode link hover - standardized for all links */
+a:hover,
+.intro__content a:hover,
+.publication-links a:hover,
+.grid-item a:hover,
+.talk-item a:hover {
+    color: #666666;  /* Standard gray for all hover states in light mode */
+}
+
+/* Dark mode link hover - keeping existing standardized gray */
+[data-theme="dark"] a:hover,
+[data-theme="dark"] .intro__content a:hover,
+[data-theme="dark"] .publication-links a:hover,
+[data-theme="dark"] .grid-item a:hover,
+[data-theme="dark"] .talk-item a:hover {
+    color: #a0a0a0;  /* Light gray for all hover states in dark mode */
+}
+
 /* Publications Section */
 .publications {
     margin: 0;
@@ -204,6 +221,24 @@ a:hover {
 
 .publication-links {
     margin-top: 1.5rem;
+}
+
+/* Publication links icons - darker in light mode */
+.publication-links a {
+    color: #333333;  /* Darker color in light mode */
+}
+
+.publication-links a:hover {
+    color: #666666;  /* Slightly lighter on hover but still dark */
+}
+
+/* Dark mode keeps existing color */
+[data-theme="dark"] .publication-links a {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .publication-links a:hover {
+    color: #a0a0a0;  /* Maintaining consistent hover color in dark mode */
 }
 
 /* Talks section */
