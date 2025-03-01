@@ -204,6 +204,7 @@ a:hover,
     display: block;
     border: 1px solid var(--border-color);
     border-radius: 8px;
+    filter: none !important;
 }
 
 .publication-content {
