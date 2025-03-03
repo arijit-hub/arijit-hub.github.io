@@ -112,7 +112,7 @@ a:hover {
 .intro {
     display: flex;
     align-items: stretch;
-    gap: 2rem;
+    gap: 1.5rem;
     text-align: left;
 }
 
@@ -123,11 +123,15 @@ a:hover {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px var(--shadow-color);
-    align-self: flex-start;
+    flex-direction: column;
+    align-self: center;
 }
 
 .intro__content {
     flex: 1;
+    flex-direction: column;
+    align-self: flex-start;
+    justify-content: flex-start;
 }
 
 /* Supervisor link styling */
