@@ -323,12 +323,7 @@ a:hover,
 }
 
 /* Images */
-img {
-    filter: grayscale(100%);
-}
-
 img:hover {
-    filter: grayscale(0%);
     transition: filter 0.3s ease;
 }
 
@@ -549,14 +544,12 @@ body {
 /* Dark mode image adjustments */
 [data-theme="dark"] img {
     opacity: 0.85;
-    filter: grayscale(100%) brightness(0.9) contrast(0.95);
     transition: all 0.3s ease;
 }
 
 [data-theme="dark"] .talk-img,
 [data-theme="dark"] .intro__img {
     opacity: 0.85;
-    filter: grayscale(100%) brightness(0.9) contrast(0.95);
     transition: all 0.3s ease;
 }
 
@@ -564,7 +557,6 @@ body {
 [data-theme="dark"] .talk-img:hover,
 [data-theme="dark"] .intro__img:hover {
     opacity: 1;
-    filter: grayscale(0%) brightness(1) contrast(1);
 }
 
 [data-theme="dark"] a {
