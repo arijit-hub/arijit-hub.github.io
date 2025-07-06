@@ -155,6 +155,12 @@ a:hover {
 a:hover,
 .intro__content a:hover,
 .publication-links a:hover,
+.publication-content a {
+    color: #000000;  /* Pure black */
+    font-weight: normal; /* Remove bold formatting for author names */
+    text-decoration: underline;
+}
+
 .grid-item a:hover,
 .talk-item a:hover {
     color: #666666;  /* Standard gray for all hover states in light mode */
@@ -222,6 +228,8 @@ a:hover,
 
 .publication-content p {
     margin-bottom: 1rem;
+    font-size: 0.9rem; /* Reduced font size from the default */
+    line-height: 1.5; /* Adding line height for better readability */
 }
 
 .publication-links {
