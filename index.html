@@ -2,60 +2,64 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Arijit Ghosh</title>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" 
-              integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+              integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
               crossorigin="anonymous"/>
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
               href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
         <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
-        <!-- Add this right after the opening <body> tag -->
         <button id="theme-toggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
         </button>
 
-        <!-- Basic Information-->
+        <canvas id="ode-canvas" aria-hidden="true"></canvas>
+
+        <!-- Basic Information -->
         <section class="intro">
             <img class="intro__img" src="assets/prof_pic.jpeg" alt="profile picture">
             <div class="intro__content">
                 <h1 class="title">Arijit Ghosh</h1>
                 <p class="subtitle">
-                    I am a (<i>happy</i>) <strong>2nd year Ph.D. student</strong> in <strong>Computer Vision</strong> at <strong>Institut Polytechnique de Paris</strong> (<strong>IMAGINE Lab</strong>) under the supervision of <a href="https://davidpicard.github.io/" target="_blank" style="margin-right: 0;">David Picard</a>. My main research interest lies in <strong>multi-modal generative models</strong> and the <strong>generalization of such multimodal models</strong>. Prior to my Ph.D. I completed my <strong>M.Sc. in Artificial Intelligence</strong> from <strong>University Erlangen-Nürnberg, Germany</strong>.
-                    <br><br>
-                    <a href="https://github.com/arijit-hub"><i class="fab fa-github-alt"></i></a>
-                    <a href="https://www.linkedin.com/in/arijitghosh27/"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://scholar.google.com/citations?user=PHi9LNEAAAAJ&hl=en"><i class="fas fa-graduation-cap"></i></a>
-                    <a href="mailto:arijit.ghosh@enpc.fr"><i class="fas fa-envelope"></i></a>
-                    <a href="assets/arijit_resume.pdf"><i class="fas fa-file-alt"></i></a>
+                    I am a (<i>happy</i>) <strong>2nd year Ph.D. student</strong> in <strong>Computer Vision</strong> at <strong>Institut Polytechnique de Paris</strong> (<strong>IMAGINE Lab</strong>) under the supervision of <a href="https://davidpicard.github.io/" target="_blank">David Picard</a>. My main research interest lies in <strong>multi-modal generative models</strong> and the <strong>generalization of such multimodal models</strong>. Prior to my Ph.D. I completed my <strong>M.Sc. in Artificial Intelligence</strong> from <strong>University Erlangen-Nürnberg, Germany</strong>.
                 </p>
+                <div class="social-links">
+                    <a href="https://github.com/arijit-hub" title="GitHub"><i class="fab fa-github-alt"></i></a>
+                    <a href="https://www.linkedin.com/in/arijitghosh27/" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://scholar.google.com/citations?user=PHi9LNEAAAAJ&hl=en" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="mailto:arijit.ghosh@enpc.fr" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="assets/arijit_resume.pdf" title="Resume"><i class="fas fa-file-alt"></i></a>
+                </div>
             </div>
         </section>
 
-        <!--Publications-->
+        <!-- Publications -->
         <section>
             <h2 class="sectionheader"><i class="fas fa-scroll"></i> Publications</h2>
             <div class="publications">
                 <div class="publication-item">
                     <div class="publication-image">
-                        <img src="assets/teaser_miro.png" alt="MIRO: MultIReward cOnditioned pretraining improves T2I quality and efficiency">
+                        <img src="assets/teaser_miro.png" alt="MIRO teaser">
                     </div>
                     <div class="publication-content">
                         <h3>MIRO: MultIReward cOnditioned pretraining improves T2I quality and efficiency</h3>
                         <p class="authors">
-                            <a href="https://nicolas-dufour.github.io/" style="margin-right: 0;">Nicolas Dufour</a>,
-                            <span class="equal-contribution"><a href="https://github.com/lucasdegeorge" style="margin-right: 0;">Lucas Degeorge</a></span>,
+                            <a href="https://nicolas-dufour.github.io/">Nicolas Dufour</a>,
+                            <span class="equal-contribution"><a href="https://lucasdegeorge.github.io/">Lucas Degeorge</a></span>,
                             <span class="equal-contribution"><strong>Arijit Ghosh</strong></span>,
-                            <a href="https://vicky.kalogeiton.info/" style="margin-right: 0;">Vicky Kalogeiton</a>,
-                            <a href="https://davidpicard.github.io/" style="margin-right: 0;">David Picard</a>
+                            <a href="https://vicky.kalogeiton.info/">Vicky Kalogeiton</a>,
+                            <a href="https://davidpicard.github.io/">David Picard</a>
                         </p>
                         <p class="contribution-note">* Equal contribution</p>
-                        <p class="venue"><em>ArXiV, 2025</em></p>
-                        
+                        <p class="venue"><em>ICML, 2026</em></p>
                         <div class="publication-links">
                             <a href="https://arxiv.org/abs/2510.25897" title="Paper"><i class="ai ai-arxiv"></i></a>
                             <a href="https://github.com/nicolas-dufour/miro" title="Code"><i class="fab fa-github"></i></a>
@@ -63,23 +67,53 @@
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="publication-item">
                     <div class="publication-image">
-                        <img src="assets/teaser_how_far_imagenet.png" alt="How far can we go with ImageNet for Text-to-Image generation?">
+                        <img src="assets/teaser_pom.png" alt="PoM teaser">
+                    </div>
+                    <div class="publication-content">
+                        <h3>PoM: A Linear-Time Replacement for Attention with the Polynomial Mixer</h3>
+                        <p class="authors">
+                            <a href="https://davidpicard.github.io/">David Picard</a>,
+                            <a href="https://nicolas-dufour.github.io/">Nicolas Dufour</a>,
+                            <a href="https://lucasdegeorge.github.io/">Lucas Degeorge</a>,
+                            <strong>Arijit Ghosh</strong>,
+                            <a href="https://davidea97.github.io/">Davide Allegro</a>,
+                            <a href="https://github.com/TomRavaud">Tom Ravaud</a>,
+                            <a href="https://yohannperron.github.io/WebPage/">Yohann Perron</a>,
+                            <a href="https://csautier.github.io/">Corentin Sautier</a>,
+                            <a href="https://imagine.enpc.fr/~sonat.baltaci/">Zeynep Sonat Baltaci</a>, 
+                            <a href="https://github.com/FEIPNG">Fei Meng</a>, 
+                            <a href="https://github.com/vayvi">Syrine Kalleli</a>, 
+                            <a href="https://github.com/Archiel19">Marta López-Rauhut</a>,
+                            <a href="https://thibautloiseau.github.io/">Thibaut Loiseau</a>, 
+                            Ségolène Albouy, 
+                            <a href="https://raphael-baena.github.io/">Raphael Baena</a>,
+                            <a href="https://elliotvincent.github.io/">Elliot Vincent</a>,
+                            <a href="https://loiclandrieu.com/">Loic Landrieu</a>
+                        </p>
+                        <p class="venue"><em>CVPR Findings, 2026</em></p>
+                        <div class="publication-links">
+                            <a href="https://arxiv.org/abs/2604.06129" title="Paper"><i class="ai ai-arxiv"></i></a>
+                            <a href="https://github.com/davidpicard/pom" title="Code"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="publication-item">
+                    <div class="publication-image">
+                        <img src="assets/teaser_how_far_imagenet.png" alt="How Far Can We Go teaser">
                     </div>
                     <div class="publication-content">
                         <h3>How far can we go with ImageNet for Text-to-Image generation?</h3>
                         <p class="authors">
-                            <span class="equal-contribution"><a href="https://github.com/lucasdegeorge" style="margin-right: 0;">Lucas Degeorge</a></span>,
+                            <span class="equal-contribution"><a href="https://lucasdegeorge.github.io/">Lucas Degeorge</a></span>,
                             <span class="equal-contribution"><strong>Arijit Ghosh</strong></span>,
-                            <a href="https://nicolas-dufour.github.io/" style="margin-right: 0;">Nicolas Dufour</a>,
-                            <a href="https://davidpicard.github.io/" style="margin-right: 0;">David Picard</a>,
-                            <a href="https://vicky.kalogeiton.info/" style="margin-right: 0;">Vicky Kalogeiton</a>
+                            <a href="https://nicolas-dufour.github.io/">Nicolas Dufour</a>,
+                            <a href="https://davidpicard.github.io/">David Picard</a>,
+                            <a href="https://vicky.kalogeiton.info/">Vicky Kalogeiton</a>
                         </p>
                         <p class="contribution-note">* Equal contribution</p>
                         <p class="venue"><em>ArXiV, 2025</em></p>
-                        
                         <div class="publication-links">
                             <a href="https://arxiv.org/abs/2502.21318" title="Paper"><i class="ai ai-arxiv"></i></a>
                             <a href="https://github.com/lucasdegeorge/T2I-ImageNet" title="Code"><i class="fab fa-github"></i></a>
@@ -90,60 +124,54 @@
             </div>
         </section>
 
-        <!-- Education-->
+        <!-- Education -->
         <section>
             <h2 class="sectionheader"><i class="fas fa-book"></i> Education</h2>
-            <div class="grid-section">
+            <div class="grid-section education-grid">
                 <div class="grid-item education-item">
                     <div class="degree">Ph.D. in Computer Vision</div>
                     <div class="university"><i class="fas fa-university"></i> Institut Polytechnique de Paris</div>
                     <div class="grade"></div>
-                    <div class="year"><i class="far fa-calendar-alt"></i> 2024 - 2027</div>
+                    <div class="year"><i class="far fa-calendar-alt"></i> 2024 – 2027</div>
                 </div>
                 <div class="grid-item education-item">
                     <div class="degree">M.Sc. in Artificial Intelligence</div>
                     <div class="university"><i class="fas fa-university"></i> University Erlangen-Nürnberg</div>
                     <div class="grade"><i class="fas fa-star"></i> Grade: 1.30 (Best: 1.0, Worst: 4.0)</div>
-                    <div class="year"><i class="far fa-calendar-alt"></i> 2021 - 2024</div>
+                    <div class="year"><i class="far fa-calendar-alt"></i> 2021 – 2024</div>
                 </div>
                 <div class="grid-item education-item">
                     <div class="degree">B.Tech. in Electronics and Communication Engineering</div>
                     <div class="university"><i class="fas fa-university"></i> Maulana Abul Kalam Azad National Institute of Technology, West Bengal</div>
                     <div class="grade"><i class="fas fa-star"></i> Grade: 9.24 (Best: 10.0, Worst: 5.0)</div>
-                    <div class="year"><i class="far fa-calendar-alt"></i> 2017 - 2021</div>
+                    <div class="year"><i class="far fa-calendar-alt"></i> 2017 – 2021</div>
                 </div>
             </div>
         </section>
 
-        <!--Experience-->
+        <!-- Experience -->
         <section>
             <h2 class="sectionheader"><i class="fas fa-flask"></i> Experience</h2>
-            <div class="grid-section">
-                <div class="grid-item">
-                    <strong>Research Assistant</strong>
-                    <br><br>
-                    <strong><small><i class="fas fa-building"></i> IMAGINE Lab, IP Paris</small></strong>
-                    <br><br>
-                    <small><i class="far fa-calendar-alt"></i> Jun 2024 - Nov 2024</small>
+            <div class="grid-section experience-grid">
+                <div class="grid-item experience-item">
+                    <div class="exp-role">Research Assistant</div>
+                    <div class="exp-org"><i class="fas fa-building"></i> IMAGINE Lab, IP Paris</div>
+                    <div class="exp-date"><i class="far fa-calendar-alt"></i> Jun 2024 – Nov 2024</div>
                 </div>
-                <div class="grid-item">
-                    <strong>Student Research Assistant</strong>
-                    <br><br>
-                    <strong><small><i class="fas fa-building"></i> IDEA Lab, University Erlangen-Nürnberg</small></strong>
-                    <br><br>
-                    <small><i class="far fa-calendar-alt"></i> Jan 2022 - May 2024</small>
+                <div class="grid-item experience-item">
+                    <div class="exp-role">Student Research Assistant</div>
+                    <div class="exp-org"><i class="fas fa-building"></i> IDEA Lab, University Erlangen-Nürnberg</div>
+                    <div class="exp-date"><i class="far fa-calendar-alt"></i> Jan 2022 – May 2024</div>
                 </div>
-                <div class="grid-item">
-                    <strong>Student Research Assistant</strong>
-                    <br><br>
-                    <strong><small><i class="fas fa-building"></i> Fraunhofer IIS, Nürnberg</small></strong>
-                    <br><br>
-                    <small><i class="far fa-calendar-alt"></i> Mar 2023 - May 2024</small>
+                <div class="grid-item experience-item">
+                    <div class="exp-role">Student Research Assistant</div>
+                    <div class="exp-org"><i class="fas fa-building"></i> Fraunhofer IIS, Nürnberg</div>
+                    <div class="exp-date"><i class="far fa-calendar-alt"></i> Mar 2023 – May 2024</div>
                 </div>
             </div>
         </section>
 
-        <!-- Talks-->
+        <!-- Talks -->
         <section>
             <h2 class="sectionheader"><i class="fas fa-microphone"></i> Talks</h2>
             <div class="talks">
@@ -168,16 +196,14 @@
             </div>
         </section>
 
-        <!-- Teaching-->
+        <!-- Teaching -->
         <section>
             <h2 class="sectionheader"><i class="fas fa-chalkboard-teacher"></i> Teaching</h2>
             <div class="grid-section teaching-grid">
                 <div class="grid-item teaching-item">
-                    <strong><i class="fas fa-user-graduate"></i> Teaching Assistant</strong>
-                    <br><br>
-                    <small><strong><i class="fas fa-university"></i> University Erlangen-Nürnberg</strong></small>
-                    <br><br>
-                    <small><i class="fas fa-book"></i> Course: Algorithms, Programming and Data Representation</small>
+                    <div class="teach-role"><i class="fas fa-user-graduate"></i> Teaching Assistant</div>
+                    <div class="teach-org"><i class="fas fa-university"></i> University Erlangen-Nürnberg</div>
+                    <div class="teach-course"><i class="fas fa-book"></i> Algorithms, Programming and Data Representation</div>
                 </div>
             </div>
         </section>
@@ -185,39 +211,102 @@
         <!-- Footer -->
         <footer class="footer">
             <p>&copy; Arijit Ghosh 2025 | Free to use by cloning the repo</p>
-        </footer>        
+        </footer>
 
         <script>
+            // ── Theme toggle ──
             const themeToggle = document.getElementById('theme-toggle');
-            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const prefersDark  = window.matchMedia('(prefers-color-scheme: dark)');
 
-            // Function to set theme
-            const setTheme = (theme) => {
+            function setTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
-                
-                // Update icon
-                const icon = themeToggle.querySelector('i');
-                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            };
+                themeToggle.querySelector('i').className =
+                    theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
 
-            // Initialize theme
-            const savedTheme = localStorage.getItem('theme') || 
-                              (prefersDarkScheme.matches ? 'dark' : 'light');
-            setTheme(savedTheme);
+            setTheme(localStorage.getItem('theme') || (prefersDark.matches ? 'dark' : 'light'));
 
-            // Toggle theme on button click
             themeToggle.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+                setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
             });
 
-            // Listen for system theme changes
-            prefersDarkScheme.addListener((e) => {
-                if (!localStorage.getItem('theme')) {
-                    setTheme(e.matches ? 'dark' : 'light');
-                }
+            prefersDark.addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
             });
+
+            // ── ODE flow-path animation ──
+            (function () {
+                const canvas = document.getElementById('ode-canvas');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                const N   = 30;
+                let W, H, paths;
+
+                function accentRGB() {
+                    return document.documentElement.getAttribute('data-theme') === 'dark'
+                        ? [52, 211, 153]    // #34d399
+                        : [14, 165, 233];   // #0ea5e9
+                }
+
+                function build() {
+                    W = canvas.width  = window.innerWidth;
+                    H = canvas.height = window.innerHeight;
+
+                    paths = Array.from({ length: N }, (_, i) => {
+                        const y0 = (i / (N - 1)) * H;
+                        const y1 = H * 0.22 + Math.random() * H * 0.56;
+                        const x0 = 0, x1 = W;
+                        const cpx1 = W * (0.28 + (Math.random() - 0.5) * 0.12);
+                        const cpy1 = y0 + (y1 - y0) * 0.15 + (Math.random() - 0.5) * H * 0.35;
+                        const cpx2 = W * (0.72 + (Math.random() - 0.5) * 0.12);
+                        const cpy2 = y1 - (y1 - y0) * 0.15 + (Math.random() - 0.5) * H * 0.20;
+                        return { x0, y0, x1, y1, cpx1, cpy1, cpx2, cpy2,
+                                 t: i / N, speed: 0.0016 + Math.random() * 0.0014 };
+                    });
+                }
+
+                function bezier(p, t) {
+                    const u = 1 - t;
+                    return {
+                        x: u*u*u*p.x0 + 3*u*u*t*p.cpx1 + 3*u*t*t*p.cpx2 + t*t*t*p.x1,
+                        y: u*u*u*p.y0 + 3*u*u*t*p.cpy1 + 3*u*t*t*p.cpy2 + t*t*t*p.y1,
+                    };
+                }
+
+                let last = 0;
+                function render(ts) {
+                    requestAnimationFrame(render);
+                    if (ts - last < 33) return;
+                    last = ts;
+
+                    const [r, g, b] = accentRGB();
+                    ctx.clearRect(0, 0, W, H);
+
+                    paths.forEach(p => {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x0, p.y0);
+                        ctx.bezierCurveTo(p.cpx1, p.cpy1, p.cpx2, p.cpy2, p.x1, p.y1);
+                        ctx.strokeStyle = `rgba(${r},${g},${b},0.10)`;
+                        ctx.lineWidth   = 1;
+                        ctx.stroke();
+
+                        const pt   = bezier(p, p.t);
+                        const fade = Math.sin(p.t * Math.PI);
+                        ctx.beginPath();
+                        ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${r},${g},${b},${0.15 + 0.50 * fade})`;
+                        ctx.fill();
+
+                        p.t = (p.t + p.speed) % 1;
+                    });
+                }
+
+                build();
+                window.addEventListener('resize', build);
+                requestAnimationFrame(render);
+            })();
         </script>
     </body>
 </html>
