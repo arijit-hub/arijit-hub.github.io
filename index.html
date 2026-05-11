@@ -242,7 +242,7 @@
 
                 const ctx = canvas.getContext('2d');
                 const N   = 30;
-                let W, H, paths;
+                let W, H, paths, pinchLX, pinchRX;
 
                 function accentRGB() {
                     return document.documentElement.getAttribute('data-theme') === 'dark'
@@ -254,25 +254,53 @@
                     W = canvas.width  = window.innerWidth;
                     H = canvas.height = window.innerHeight;
 
+                    pinchLX = W * 0.35;
+                    pinchRX = W * 0.65;
+
+                    // Narrow middle band, sorted with frac → non-crossing guarantee.
+                    const midSpread = 0.28;
+                    const midBase   = (1 - midSpread) / 2;
+
                     paths = Array.from({ length: N }, (_, i) => {
-                        const y0 = (i / (N - 1)) * H;
-                        const y1 = H * 0.22 + Math.random() * H * 0.56;
-                        const x0 = 0, x1 = W;
-                        const cpx1 = W * (0.28 + (Math.random() - 0.5) * 0.12);
-                        const cpy1 = y0 + (y1 - y0) * 0.15 + (Math.random() - 0.5) * H * 0.35;
-                        const cpx2 = W * (0.72 + (Math.random() - 0.5) * 0.12);
-                        const cpy2 = y1 - (y1 - y0) * 0.15 + (Math.random() - 0.5) * H * 0.20;
-                        return { x0, y0, x1, y1, cpx1, cpy1, cpx2, cpy2,
-                                 t: i / N, speed: 0.0016 + Math.random() * 0.0014 };
+                        const frac = i / (N - 1);
+                        return {
+                            y0:   frac * H,
+                            yMid: (midBase + frac * midSpread) * H,
+                            y1:   frac * H,
+                            t:    i / N,
+                            speed: 0.0016 + Math.random() * 0.0014
+                        };
                     });
                 }
 
-                function bezier(p, t) {
-                    const u = 1 - t;
+                // Compound path: converge (bezier) → horizontal (line) → diverge (bezier).
+                const T1 = 0.38, T2 = 0.62;
+
+                function pathPos(p, t) {
+                    if (t < T1) {
+                        const s = t / T1, u = 1 - s;
+                        return {
+                            x: 3*u*u*s*(W*0.15) + 3*u*s*s*(pinchLX - W*0.05) + s*s*s*pinchLX,
+                            y: u*u*u*p.y0 + 3*u*u*s*p.y0 + 3*u*s*s*p.yMid + s*s*s*p.yMid
+                        };
+                    }
+                    if (t < T2) {
+                        const s = (t - T1) / (T2 - T1);
+                        return { x: pinchLX + s * (pinchRX - pinchLX), y: p.yMid };
+                    }
+                    const s = (t - T2) / (1 - T2), u = 1 - s;
                     return {
-                        x: u*u*u*p.x0 + 3*u*u*t*p.cpx1 + 3*u*t*t*p.cpx2 + t*t*t*p.x1,
-                        y: u*u*u*p.y0 + 3*u*u*t*p.cpy1 + 3*u*t*t*p.cpy2 + t*t*t*p.y1,
+                        x: u*u*u*pinchRX + 3*u*u*s*(pinchRX + W*0.05) + 3*u*s*s*(W*0.85) + s*s*s*W,
+                        y: u*u*u*p.yMid + 3*u*u*s*p.yMid + 3*u*s*s*p.y1 + s*s*s*p.y1
                     };
+                }
+
+                function drawPath(p) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, p.y0);
+                    ctx.bezierCurveTo(W*0.15, p.y0, pinchLX - W*0.05, p.yMid, pinchLX, p.yMid);
+                    ctx.lineTo(pinchRX, p.yMid);
+                    ctx.bezierCurveTo(pinchRX + W*0.05, p.yMid, W*0.85, p.y1, W, p.y1);
                 }
 
                 let last = 0;
@@ -285,14 +313,12 @@
                     ctx.clearRect(0, 0, W, H);
 
                     paths.forEach(p => {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x0, p.y0);
-                        ctx.bezierCurveTo(p.cpx1, p.cpy1, p.cpx2, p.cpy2, p.x1, p.y1);
+                        drawPath(p);
                         ctx.strokeStyle = `rgba(${r},${g},${b},0.10)`;
                         ctx.lineWidth   = 1;
                         ctx.stroke();
 
-                        const pt   = bezier(p, p.t);
+                        const pt   = pathPos(p, p.t);
                         const fade = Math.sin(p.t * Math.PI);
                         ctx.beginPath();
                         ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
