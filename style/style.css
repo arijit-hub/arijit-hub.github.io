@@ -1,23 +1,8 @@
 /* ── Google Font ── */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
-/* ── Variables: Light default ── */
+/* ── Variables: Dark mode only ── */
 :root {
-  --bg:         #ffffff;
-  --surface:    #f7f7f7;
-  --text:       #1c1c1c;
-  --muted:      #888888;
-  --border:     #e4e4e0;
-  --accent:     #0ea5e9;
-  --shadow:     rgba(0, 0, 0, 0.05);
-  --shadow-md:  rgba(0, 0, 0, 0.10);
-  --r:          14px;
-  --r-sm:       8px;
-  --font:       'JetBrains Mono', 'Courier New', monospace;
-}
-
-/* specificity 0,2,0 — always beats @media :root at 0,1,0 */
-:root[data-theme="dark"] {
   --bg:         #111111;
   --surface:    #191919;
   --text:       #dededd;
@@ -26,31 +11,9 @@
   --accent:     #34d399;
   --shadow:     rgba(0, 0, 0, 0.3);
   --shadow-md:  rgba(0, 0, 0, 0.5);
-}
-
-:root[data-theme="light"] {
-  --bg:         #ffffff;
-  --surface:    #f7f7f7;
-  --text:       #1c1c1c;
-  --muted:      #888888;
-  --border:     #e4e4e0;
-  --accent:     #0ea5e9;
-  --shadow:     rgba(0, 0, 0, 0.05);
-  --shadow-md:  rgba(0, 0, 0, 0.10);
-}
-
-/* system-preference fallback before JS runs */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:         #111111;
-    --surface:    #191919;
-    --text:       #dededd;
-    --muted:      #6a6a6a;
-    --border:     #2e2e2e;
-    --accent:     #34d399;
-    --shadow:     rgba(0, 0, 0, 0.3);
-    --shadow-md:  rgba(0, 0, 0, 0.5);
-  }
+  --r:          14px;
+  --r-sm:       8px;
+  --font:       'JetBrains Mono', 'Courier New', monospace;
 }
 
 /* ── Reset ── */
@@ -160,7 +123,13 @@ section:last-of-type  { margin-bottom: 0; }
   text-align-last: left;
   hyphens: auto;
 }
-.subtitle a { font-weight: 600; }
+.subtitle a {
+  font-weight: 600;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.25px;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
 
 /* ── Social links ── */
 .social-links {
@@ -389,26 +358,6 @@ section:last-of-type  { margin-bottom: 0; }
   margin-left: 1px;
 }
 
-/* ── Theme toggle ── */
-.theme-toggle {
-  position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-  z-index: 100;
-}
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ── Footer ── */
 .footer {
