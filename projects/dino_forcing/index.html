@@ -20,9 +20,35 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
         <link rel="stylesheet" href="static/css/style.css">
+        <meta name="color-scheme" content="dark light">
+        <script>
+            // Set the theme before first paint: saved choice, else the system setting.
+            (function () {
+                let saved = null;
+                try { saved = localStorage.getItem('df-theme'); } catch (e) {}
+                const mq = window.matchMedia('(prefers-color-scheme: light)');
+                const apply = t => {
+                    document.documentElement.setAttribute('data-theme', t);
+                    document.dispatchEvent(new Event('themechange'));
+                };
+                apply(saved || (mq.matches ? 'light' : 'dark'));
+                mq.addEventListener('change', e => {
+                    let s = null;
+                    try { s = localStorage.getItem('df-theme'); } catch (err) {}
+                    if (!s) apply(e.matches ? 'light' : 'dark');
+                });
+                window.setTheme = t => {
+                    try { localStorage.setItem('df-theme', t); } catch (e) {}
+                    apply(t);
+                };
+            })();
+        </script>
     </head>
     <body>
         <canvas id="ode-canvas" aria-hidden="true"></canvas>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light / dark mode" title="Toggle light / dark mode">
+            <i class="fas fa-moon"></i><i class="fas fa-sun"></i>
+        </button>
 
         <!-- Title -->
         <section class="card hero">

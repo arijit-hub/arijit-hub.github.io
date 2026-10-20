@@ -1,14 +1,23 @@
 // Dynamic versions of the paper figures (teaser, training, sampling).
 // Diagrams are SVG; images are canvases placed over the SVG in viewBox units.
 
+// SVG colours follow the theme through CSS variables...
 const FX = {
-    img: '#f0a875',
-    dino: '#7cb4f5',
-    acc: '#34d399',
-    grad: '#f472b6',
-    mut: '#6a6a6a',
-    manifold: '#f472b6',
+    img: 'var(--img)',
+    dino: 'var(--dino)',
+    acc: 'var(--accent)',
+    grad: 'var(--grad)',
+    mut: 'var(--faint)',
+    manifold: 'var(--grad)',
 };
+// ...canvases need concrete values, re-read on every theme switch.
+let PAL = {};
+function readPalette() {
+    PAL = Object.fromEntries(['img', 'dino', 'accent', 'grad', 'text', 'muted', 'faint', 'line', 'zero', 'neutral']
+        .map(k => [k, cssVar(`--${k}`)]));
+}
+readPalette();
+document.addEventListener('themechange', readPalette);
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
@@ -80,12 +89,12 @@ function drawBlurred(ctx, img, res) {
 // The all-zeros self-condition used at the first step.
 function drawZeros(ctx) {
     const n = ctx.canvas.width;
-    ctx.fillStyle = '#141414';
+    ctx.fillStyle = PAL.zero;
     ctx.fillRect(0, 0, n, n);
     const g = n / 3;
-    ctx.strokeStyle = 'rgba(52,211,153,0.35)';
+    ctx.strokeStyle = withAlpha(PAL.accent, 0.35);
     ctx.lineWidth = n / 64;
-    ctx.fillStyle = 'rgba(52,211,153,0.75)';
+    ctx.fillStyle = withAlpha(PAL.accent, 0.75);
     ctx.font = `${Math.round(g * 0.42)}px JetBrains Mono, monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -115,13 +124,13 @@ function ovCanvas(stage, W, H, x, y, w, h, res = 128) {
 function markers() {
     return `<defs>${Object.entries(FX).map(([k, c]) =>
         `<marker id="fxm-${k}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-            <path d="M0,0 L8,4 L0,8 z" fill="${c}"/></marker>`).join('')}</defs>`;
+            <path d="M0,0 L8,4 L0,8 z" style="fill:${c}"/></marker>`).join('')}</defs>`;
 }
 // A solid wire with an arrow head, plus a dotted "flow" overlay that animates.
 function wire(d, color, { show = '', arrow = true, flow = true, id = '', rev = false } = {}) {
     const s = show ? ` data-show="${show}"` : '';
-    return `<path${id ? ` id="${id}"` : ''} d="${d}" class="wire" stroke="${FX[color]}"${arrow ? ` marker-end="url(#fxm-${color})"` : ''}/>` +
-        (flow ? `<path d="${d}" class="flow${rev ? ' rev' : ''}" stroke="${FX[color]}"${s}/>` : '');
+    return `<path${id ? ` id="${id}"` : ''} d="${d}" class="wire" style="stroke:${FX[color]}"${arrow ? ` marker-end="url(#fxm-${color})"` : ''}/>` +
+        (flow ? `<path d="${d}" class="flow${rev ? ' rev' : ''}" style="stroke:${FX[color]}"${s}/>` : '');
 }
 const plus = (x, y) => `<circle cx="${x}" cy="${y}" r="9" class="plus"/><path d="M${x - 4.5} ${y}h9M${x} ${y - 4.5}v9" class="plus-x"/>`;
 const sub = (base, s, x, y, anchor = 'start', cls = 'm') =>
@@ -170,32 +179,32 @@ function setPlayIcon(btn, playing) {
         const co = mode === 'co';
         stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${markers()}
             ${co
-                ? wire('M95 47H341', 'dino') + plus(350, 47) + wire('M359 47H390', 'dino', { flow: false }) +
-                  wire('M160 47V92H178', 'dino')
-                : wire('M95 47H160V92H178', 'dino') + wire('M290 92H340V47H390', 'dino')}
-            ${wire('M116 162H341', 'img')}${plus(350, 162)}${wire('M359 162H368', 'img', { flow: false })}
-            ${wire('M168 162V122H178', 'img')}
-            ${co ? wire('M290 92H350V58', 'dino') : ''}
-            ${wire('M290 122H350V151', 'img')}
-            <rect x="180" y="72" width="110" height="66" rx="10" class="${co ? 'model model--prior' : 'model'}"/>
-            <text x="235" y="${co ? 101 : 109}" text-anchor="middle" class="model-t">${co ? 'Prior' : 'Ours'}</text>
-            ${co ? '<text x="235" y="119" text-anchor="middle" class="model-t">work</text>' : ''}
-            <text x="250" y="38" text-anchor="middle" class="lbl">${co ? 'DINO ODE' : 'DINO prediction'}</text>
-            <text x="250" y="182" text-anchor="middle" class="lbl">Image ODE</text>
+                ? wire('M95 47H311', 'dino') + plus(320, 47) + wire('M329 47H383', 'dino', { flow: false }) +
+                  wire('M160 47V90H183', 'dino')
+                : wire('M95 47H160V90H183', 'dino') + wire('M295 90H320V47H383', 'dino')}
+            ${wire('M116 162H311', 'img')}${plus(320, 162)}${wire('M329 162H362', 'img', { flow: false })}
+            ${wire('M160 162V120H183', 'img')}
+            ${co ? wire('M295 90H320V58', 'dino') : ''}
+            ${wire('M295 120H320V151', 'img')}
+            <rect x="185" y="72" width="110" height="66" rx="10" class="${co ? 'model model--prior' : 'model'}"/>
+            <text x="240" y="${co ? 101 : 109}" text-anchor="middle" class="model-t">${co ? 'Prior' : 'Ours'}</text>
+            ${co ? '<text x="240" y="119" text-anchor="middle" class="model-t">work</text>' : ''}
+            <text x="240" y="38" text-anchor="middle" class="lbl">${co ? 'DINO ODE' : 'DINO prediction'}</text>
+            <text x="240" y="182" text-anchor="middle" class="lbl">Image ODE</text>
             ${co ? sub('z', 't<tspan font-size="8">D</tspan>', 101, 38) : '<text x="101" y="38" class="m">ẑ</text>'}
-            <text x="101" y="66" class="ro ro--dino" data-ro="z">${co ? 't_D=0.00' : 'zeros'}</text>
+            <text x="66" y="90" text-anchor="middle" class="ro ro--dino" data-ro="z">${co ? 't_D=0.00' : 'zeros'}</text>
             ${sub('x', co ? 't<tspan font-size="8">I</tspan>' : 't', 122, 154)}
             <text x="122" y="181" class="ro ro--img" data-ro="x">t=0.00</text>
-            ${co ? sub('v', 'z', 356, 80) : ''}
-            ${sub('v', 'x', 356, 142)}
-            ${co ? sub('z', 't+Δt', 421, 92, 'middle') : '<text x="421" y="92" text-anchor="middle" class="m">ẑ</text>'}
-            ${sub('x', 't+Δt', 420, 229, 'middle')}
+            ${co ? sub('v', 'z', 326, 80) : ''}
+            ${sub('v', 'x', 326, 142)}
+            ${co ? sub('z', 't+Δt', 414, 92, 'middle') : '<text x="414" y="92" text-anchor="middle" class="m">ẑ</text>'}
+            ${sub('x', 't+Δt', 414, 229, 'middle')}
         </svg>`;
         return {
             zin: ovCanvas(stage, W, H, 37, 18, 58, 58),
             xin: ovCanvas(stage, W, H, 16, 112, 100, 100),
-            zout: ovCanvas(stage, W, H, 392, 18, 58, 58),
-            xout: ovCanvas(stage, W, H, 370, 112, 100, 100),
+            zout: ovCanvas(stage, W, H, 385, 18, 58, 58),
+            xout: ovCanvas(stage, W, H, 364, 112, 100, 100),
             roZ: stage.querySelector('[data-ro="z"]'),
             roX: stage.querySelector('[data-ro="x"]'),
         };
@@ -248,9 +257,9 @@ function setPlayIcon(btn, playing) {
         ctx.font = '10px JetBrains Mono, monospace';
 
         // axes
-        ctx.strokeStyle = '#4a4a4a'; ctx.lineWidth = 1;
+        ctx.strokeStyle = PAL.line; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(X(-1.3), Z(2.2)); ctx.lineTo(X(-1.3), Z(AXIS)); ctx.lineTo(X(2.75), Z(AXIS)); ctx.stroke();
-        ctx.fillStyle = '#6a6a6a';
+        ctx.fillStyle = PAL.faint;
         ctx.textAlign = 'right'; ctx.fillText('image →', X(2.75), Z(AXIS) + 16);
         ctx.save(); ctx.translate(X(-1.3) - 8, Z(0.6)); ctx.rotate(-Math.PI / 2);
         ctx.textAlign = 'center'; ctx.fillText('DINO →', 0, 0); ctx.restore();
@@ -258,9 +267,9 @@ function setPlayIcon(btn, playing) {
         // data manifold
         ctx.beginPath();
         for (let x = 0.7; x <= 2.62; x += 0.02) ctx.lineTo(X(x), Z(phi(x)));
-        ctx.strokeStyle = 'rgba(244,114,182,0.18)'; ctx.lineWidth = 9; ctx.lineCap = 'round'; ctx.stroke();
-        ctx.strokeStyle = 'rgba(244,114,182,0.85)'; ctx.lineWidth = 1.5; ctx.stroke();
-        ctx.fillStyle = 'rgba(244,114,182,0.9)'; ctx.textAlign = 'left';
+        ctx.strokeStyle = withAlpha(PAL.grad, 0.18); ctx.lineWidth = 9; ctx.lineCap = 'round'; ctx.stroke();
+        ctx.strokeStyle = withAlpha(PAL.grad, 0.85); ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.fillStyle = withAlpha(PAL.grad, 0.9); ctx.textAlign = 'left';
         ctx.fillText('data: (x, φ(x))', X(1.45), Z(phi(2.62)) - 22);
 
         // noise source
@@ -268,12 +277,12 @@ function setPlayIcon(btn, playing) {
         const g = co
             ? ctx.createRadialGradient(X(0), Z(0), 0, X(0), Z(0), 46)
             : ctx.createRadialGradient(X(0), Z(AXIS), 0, X(0), Z(AXIS), 40);
-        g.addColorStop(0, co ? 'rgba(200,200,220,0.28)' : 'rgba(240,168,117,0.35)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
+        g.addColorStop(0, co ? withAlpha(PAL.neutral, 0.28) : withAlpha(PAL.img, 0.35));
+        g.addColorStop(1, withAlpha(co ? PAL.neutral : PAL.img, 0));
         ctx.fillStyle = g;
         if (co) { ctx.fillRect(X(0) - 50, Z(0) - 50, 100, 100); }
         else { ctx.save(); ctx.translate(X(0), Z(AXIS)); ctx.scale(1, 0.32); ctx.translate(-X(0), -Z(AXIS)); ctx.fillRect(X(0) - 44, Z(AXIS) - 44, 88, 88); ctx.restore(); }
-        ctx.fillStyle = '#8a8a8a'; ctx.textAlign = 'center';
+        ctx.fillStyle = PAL.muted; ctx.textAlign = 'center';
         ctx.fillText(co ? 'ε_I, ε_D ~ N(0, I)' : 'ε_I ~ N(0, I)', X(0), co ? Z(0) + 58 : Z(AXIS) - 12);
 
         // trajectories
@@ -285,7 +294,7 @@ function setPlayIcon(btn, playing) {
                 const [x, y] = co ? posCo(p, s) : posDF(p, s);
                 k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
             }
-            ctx.strokeStyle = co ? 'rgba(190,190,215,0.22)' : 'rgba(240,168,117,0.30)';
+            ctx.strokeStyle = co ? withAlpha(PAL.neutral, 0.22) : withAlpha(PAL.img, 0.30);
             ctx.lineWidth = 1; ctx.stroke();
 
             if (!co) {
@@ -294,45 +303,45 @@ function setPlayIcon(btn, playing) {
                     const [x, y] = predDF(p, tau * k / steps);
                     k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
                 }
-                ctx.strokeStyle = 'rgba(124,180,245,0.16)'; ctx.stroke();
+                ctx.strokeStyle = withAlpha(PAL.dino, 0.16); ctx.stroke();
             }
         });
         P.forEach(p => {
             if (co) {
                 const [x, y] = posCo(p, tau);
                 ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7);
-                ctx.fillStyle = '#e6e6f0'; ctx.fill();
+                ctx.fillStyle = PAL.neutral; ctx.fill();
             } else {
                 const [x, y] = posDF(p, tau), [px, py] = predDF(p, tau);
                 ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(px, py);
-                ctx.setLineDash([2, 3]); ctx.strokeStyle = 'rgba(124,180,245,0.22)'; ctx.stroke(); ctx.setLineDash([]);
-                ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fillStyle = FX.img; ctx.fill();
-                ctx.beginPath(); ctx.arc(px, py, 2.4, 0, 7); ctx.fillStyle = FX.dino; ctx.fill();
+                ctx.setLineDash([2, 3]); ctx.strokeStyle = withAlpha(PAL.dino, 0.22); ctx.stroke(); ctx.setLineDash([]);
+                ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fillStyle = PAL.img; ctx.fill();
+                ctx.beginPath(); ctx.arc(px, py, 2.4, 0, 7); ctx.fillStyle = PAL.dino; ctx.fill();
             }
         });
 
         // inset: the time domain the network must cover
         const ix = X(-1.3) + 14, iy = 12, S = 44;
-        ctx.textAlign = 'left'; ctx.fillStyle = '#8a8a8a';
+        ctx.textAlign = 'left'; ctx.fillStyle = PAL.muted;
         if (co) {
-            ctx.strokeStyle = '#4a4a4a'; ctx.strokeRect(ix, iy, S, S);
-            ctx.fillStyle = 'rgba(124,180,245,0.35)';
+            ctx.strokeStyle = PAL.line; ctx.strokeRect(ix, iy, S, S);
+            ctx.fillStyle = withAlpha(PAL.dino, 0.35);
             trainPts.forEach(([a, b]) => ctx.fillRect(ix + a * S - 0.8, iy + S - b * S - 0.8, 1.6, 1.6));
             ctx.beginPath();
             for (let k = 0; k <= 30; k++) { const s = k / 30; ctx.lineTo(ix + s * S, iy + S - tD(s) * S); }
-            ctx.strokeStyle = 'rgba(222,222,221,0.6)'; ctx.stroke();
-            ctx.beginPath(); ctx.arc(ix + tau * S, iy + S - tD(tau) * S, 3, 0, 7); ctx.fillStyle = '#fff'; ctx.fill();
-            ctx.fillStyle = '#8a8a8a';
+            ctx.strokeStyle = withAlpha(PAL.text, 0.6); ctx.stroke();
+            ctx.beginPath(); ctx.arc(ix + tau * S, iy + S - tD(tau) * S, 3, 0, 7); ctx.fillStyle = PAL.text; ctx.fill();
+            ctx.fillStyle = PAL.muted;
             ctx.fillText('(t_I, t_D) ∈ [0,1]²', ix + S + 8, iy + 14);
             ctx.fillText('image + DINO schedules', ix + S + 8, iy + 28);
             ctx.fillText('to hand-craft', ix + S + 8, iy + 40);
         } else {
             const ly = iy + S / 2;
-            ctx.strokeStyle = '#4a4a4a'; ctx.beginPath(); ctx.moveTo(ix, ly); ctx.lineTo(ix + S, ly); ctx.stroke();
-            ctx.fillStyle = 'rgba(52,211,153,0.45)';
+            ctx.strokeStyle = PAL.line; ctx.beginPath(); ctx.moveTo(ix, ly); ctx.lineTo(ix + S, ly); ctx.stroke();
+            ctx.fillStyle = withAlpha(PAL.accent, 0.45);
             for (let k = 0; k <= 10; k++) ctx.fillRect(ix + k / 10 * S - 0.8, ly - 0.8, 1.6, 1.6);
-            ctx.beginPath(); ctx.arc(ix + tau * S, ly, 3, 0, 7); ctx.fillStyle = FX.acc; ctx.fill();
-            ctx.fillStyle = '#8a8a8a';
+            ctx.beginPath(); ctx.arc(ix + tau * S, ly, 3, 0, 7); ctx.fillStyle = PAL.accent; ctx.fill();
+            ctx.fillStyle = PAL.muted;
             ctx.fillText('t ∈ [0,1]', ix + S + 8, ly - 3);
             ctx.fillText('image schedule only', ix + S + 8, ly + 11);
         }
@@ -377,6 +386,7 @@ function setPlayIcon(btn, playing) {
     playBtn.addEventListener('click', () => { if (tau >= 1) tau = 0; setPlaying(!playing); });
     slider.addEventListener('input', () => { setPlaying(false); tau = slider.value / 1000; render(tau); });
     window.addEventListener('resize', () => render(tau));
+    document.addEventListener('themechange', () => render(tau));
     onVisible(root, v => { visible = v; });
 
     function loop(ts) {
@@ -398,12 +408,13 @@ function setPlayIcon(btn, playing) {
     const root = document.getElementById('fx-train');
     if (!root) return;
     const stage = root.querySelector('.fx-stage');
-    const W = 920, H = 352;
+    // Rows: DINO at YD, image at YI; the model sits halfway, inputs and outputs mirror each other.
+    const W = 920, H = 360, YD = 112, YI = 262, YM = (YD + YI) / 2;
 
     const grid = (kind) => {
         let s = '';
         for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
-            const x = 30 + i * 30, y = 58 + j * 30;
+            const x = 30 + i * 30, y = YD - 42 + j * 30;
             s += kind === 'zero'
                 ? `<rect x="${x}" y="${y}" width="26" height="26" rx="4" class="zt"/><text x="${x + 13}" y="${y + 17}" text-anchor="middle" class="ztl">0</text>`
                 : `<rect x="${x}" y="${y}" width="26" height="26" rx="4" class="dt" style="fill-opacity:${0.18 + ((i * 7 + j * 5) % 9) / 14}"/>`;
@@ -413,89 +424,91 @@ function setPlayIcon(btn, playing) {
     const catCol = (kind) => {
         let s = '';
         for (let i = 0; i < 6; i++) {
-            const y = 128 + i * 22;
+            const y = YM - 64 + i * 22;
             s += kind === 'img'
                 ? `<rect x="232" y="${y}" width="10" height="18" class="ct ct--img"/>`
                 : `<rect x="242" y="${y}" width="10" height="18" class="ct ct--${kind}"/>`;
         }
         return s;
     };
+    // 6-token column centred on y: 5 gaps of 22 + one token of 18
+    const col6 = y => y - 64, col4 = y => y - 42;
 
     stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${markers()}
         <!-- feedback: look-ahead becomes the self-condition -->
-        ${wire('M519 86V24H73V52', 'dino', { id: 'fx-fb', show: '1' })}
+        ${wire(`M519 ${col4(YD) - 6}V24H73V${YD - 46}`, 'dino', { id: 'fx-fb', show: '1' })}
         <text x="296" y="16" text-anchor="middle" class="lbl lbl--dino">the look-ahead prediction is fed back as the self-condition</text>
         <text x="296" y="40" text-anchor="middle" class="lbl lbl--grad" data-show="3">✕ stop-gradient: pass 1 gets no gradient</text>
 
         <g data-show="1">${grid('zero')}</g>
         <g data-show="2 3">${grid('dino')}</g>
-        <text x="73" y="166" text-anchor="middle" class="lbl">self-condition</text>
-        <text x="73" y="180" text-anchor="middle" class="lbl lbl--dino" data-show="1">zeros</text>
-        <text x="73" y="180" text-anchor="middle" class="lbl lbl--dino" data-show="2 3">look-ahead ẑ</text>
-        <text x="75" y="330" text-anchor="middle" class="lbl">noisy image</text>
-        ${sub('x', 't', 75, 346, 'middle')}
+        <text x="73" y="${YD + 56}" text-anchor="middle" class="lbl">self-condition</text>
+        <text x="73" y="${YD + 70}" text-anchor="middle" class="lbl lbl--dino" data-show="1">zeros</text>
+        <text x="73" y="${YD + 70}" text-anchor="middle" class="lbl lbl--dino" data-show="2 3">look-ahead ẑ</text>
+        <text x="73" y="${YI + 72}" text-anchor="middle" class="lbl">noisy image</text>
+        ${sub('x', 't', 73, YI + 88, 'middle')}
 
-        ${wire('M120 103H150', 'dino', { show: '1 2' })}
-        ${wire('M132 255H150', 'img', { show: '1 2' })}
-        <g data-show="1">${col(158, 50, 6, 'zero', '0')}</g>
-        <g data-show="2 3">${col(158, 50, 6, 'dino')}</g>
-        ${col(158, 196, 6, 'img')}
+        ${wire(`M118 ${YD}H152`, 'dino', { show: '1 2' })}
+        ${wire(`M130 ${YI}H152`, 'img', { show: '1 2' })}
+        <g data-show="1">${col(158, col6(YD), 6, 'zero', '0')}</g>
+        <g data-show="2 3">${col(158, col6(YD), 6, 'dino')}</g>
+        ${col(158, col6(YI), 6, 'img')}
 
-        ${wire('M184 116H206V170H226', 'dino', { show: '1 2' })}
-        ${wire('M184 260H206V232H226', 'img', { show: '1 2' })}
+        ${wire(`M184 ${YD}H206V${YM - 30}H226`, 'dino', { show: '1 2' })}
+        ${wire(`M184 ${YI}H206V${YM + 30}H226`, 'img', { show: '1 2' })}
         ${catCol('img')}
         <g data-show="1">${catCol('zero')}</g>
         <g data-show="2 3">${catCol('dino')}</g>
-        <text x="242" y="298" text-anchor="middle" class="lbl">concat</text>
-        <text x="242" y="311" text-anchor="middle" class="lbl">(channels)</text>
+        <text x="242" y="${YM + 88}" text-anchor="middle" class="lbl">concat</text>
+        <text x="242" y="${YM + 101}" text-anchor="middle" class="lbl">(channels)</text>
 
-        ${wire('M256 200H298', 'acc', { show: '1 2' })}
-        <rect x="300" y="140" width="150" height="120" rx="12" class="model"/>
-        <rect x="296" y="136" width="158" height="128" rx="15" class="model-glow" data-show="3"/>
-        <text x="375" y="196" text-anchor="middle" class="model-t">Model</text>
-        <text x="375" y="214" text-anchor="middle" class="lbl" data-show="1">pass 1 · no grad</text>
-        <text x="375" y="214" text-anchor="middle" class="lbl" data-show="2">pass 2</text>
-        <text x="375" y="214" text-anchor="middle" class="lbl lbl--grad" data-show="3">∇θ update</text>
-        <rect x="340" y="290" width="70" height="22" rx="5" class="chip"/>
-        <text x="375" y="305" text-anchor="middle" class="chip-t">&lt;cls&gt;</text>
-        ${wire('M375 290V262', 'mut', { show: '1 2' })}
+        ${wire(`M256 ${YM}H298`, 'acc', { show: '1 2' })}
+        <rect x="300" y="${YM - 60}" width="150" height="120" rx="12" class="model"/>
+        <rect x="296" y="${YM - 64}" width="158" height="128" rx="15" class="model-glow" data-show="3"/>
+        <text x="375" y="${YM - 4}" text-anchor="middle" class="model-t">Model</text>
+        <text x="375" y="${YM + 14}" text-anchor="middle" class="lbl" data-show="1">pass 1 · no grad</text>
+        <text x="375" y="${YM + 14}" text-anchor="middle" class="lbl" data-show="2">pass 2</text>
+        <text x="375" y="${YM + 14}" text-anchor="middle" class="lbl lbl--grad" data-show="3">∇θ update</text>
+        <rect x="340" y="${YM + 90}" width="70" height="22" rx="5" class="chip"/>
+        <text x="375" y="${YM + 105}" text-anchor="middle" class="chip-t">&lt;cls&gt;</text>
+        ${wire(`M375 ${YM + 90}V${YM + 62}`, 'mut', { show: '1 2' })}
 
-        ${wire('M450 165H480V140H502', 'dino', { show: '1 2' })}
-        <g data-dim="0.15" data-show="2 3">${wire('M450 235H480V256H502', 'img', { show: '2' })}</g>
-        ${col(510, 96, 4, 'dino')}
-        <g data-dim="0.15" data-show="2 3">${col(510, 214, 4, 'img')}</g>
-        <text x="510" y="80" text-anchor="end" class="m" data-show="1">ẑ⁽ᶲ⁾</text>
-        <text x="510" y="80" text-anchor="end" class="m" data-show="2 3">ẑ</text>
-        <g data-dim="0.15" data-show="2 3">${sub('v', 'θ', 519, 328, 'middle')}</g>
+        ${wire(`M450 ${YM - 30}H480V${YD}H502`, 'dino', { show: '1 2' })}
+        <g data-dim="0.15" data-show="2 3">${wire(`M450 ${YM + 30}H480V${YI}H502`, 'img', { show: '2' })}</g>
+        ${col(510, col4(YD), 4, 'dino')}
+        <g data-dim="0.15" data-show="2 3">${col(510, col4(YI), 4, 'img')}</g>
+        <text x="506" y="${col4(YD) - 8}" text-anchor="end" class="m" data-show="1">ẑ⁽ᶲ⁾</text>
+        <text x="506" y="${col4(YD) - 8}" text-anchor="end" class="m" data-show="2 3">ẑ</text>
+        <g data-dim="0.15" data-show="2 3">${sub('v', 'θ', 521, col4(YI) + 106, 'middle')}</g>
 
         <g data-dim="0.12" data-show="2 3">
-            ${wire('M538 140H588', 'dino', { show: '2' })}
-            <rect x="590" y="116" width="172" height="48" rx="8" class="loss"/>
-            <text x="676" y="136" text-anchor="middle" class="m">ℒ<tspan class="sub" dy="4">align</tspan></text>
-            <text x="676" y="155" text-anchor="middle" class="lbl">−cos(ẑ, φ(x))</text>
-            ${wire('M842 140H764', 'dino', { show: '2' })}
-            ${col(850, 96, 4, 'tgt')}
-            <text x="859" y="84" text-anchor="middle" class="m">φ(x)</text>
-            <text x="859" y="200" text-anchor="middle" class="lbl">DINOv2 ❄</text>
+            ${wire(`M538 ${YD}H588`, 'dino', { show: '2' })}
+            <rect x="590" y="${YD - 24}" width="172" height="48" rx="8" class="loss"/>
+            <text x="676" y="${YD - 4}" text-anchor="middle" class="m">ℒ<tspan class="sub" dy="4">align</tspan></text>
+            <text x="676" y="${YD + 15}" text-anchor="middle" class="lbl">−cos(ẑ, φ(x))</text>
+            ${wire(`M842 ${YD}H764`, 'dino', { show: '2' })}
+            ${col(850, col4(YD), 4, 'tgt')}
+            <text x="861" y="${col4(YD) - 12}" text-anchor="middle" class="m">φ(x)</text>
+            <text x="861" y="${YD + 60}" text-anchor="middle" class="lbl">DINOv2 ❄</text>
 
-            ${wire('M538 256H588', 'img', { show: '2' })}
-            <rect x="590" y="232" width="172" height="48" rx="8" class="loss"/>
-            <text x="676" y="252" text-anchor="middle" class="m">ℒ<tspan class="sub" dy="4">FM</tspan></text>
-            <text x="676" y="271" text-anchor="middle" class="lbl">‖v − (x − ε)‖²</text>
-            ${wire('M842 256H764', 'img', { show: '2' })}
-            <text x="859" y="260" text-anchor="middle" class="m">x − ε</text>
+            ${wire(`M538 ${YI}H588`, 'img', { show: '2' })}
+            <rect x="590" y="${YI - 24}" width="172" height="48" rx="8" class="loss"/>
+            <text x="676" y="${YI - 4}" text-anchor="middle" class="m">ℒ<tspan class="sub" dy="4">FM</tspan></text>
+            <text x="676" y="${YI + 15}" text-anchor="middle" class="lbl">‖v − (x − ε)‖²</text>
+            ${wire(`M842 ${YI}H764`, 'img', { show: '2' })}
+            <text x="861" y="${YI + 4}" text-anchor="middle" class="m">x − ε</text>
         </g>
 
         <g data-show="3" data-dim="0">
-            ${wire('M590 150H470V182H452', 'grad', { rev: false })}
-            ${wire('M590 266H470V220H452', 'grad', { rev: false })}
+            ${wire(`M590 ${YD + 12}H470V${YM - 15}H452`, 'grad', { rev: false })}
+            ${wire(`M590 ${YI - 12}H470V${YM + 15}H452`, 'grad', { rev: false })}
         </g>
         <g class="flyers"></g>
     </svg>`;
     const img = document.createElement('img');
     img.src = 'static/images/figs/puppy_noisy.webp';
     img.alt = '';
-    overlay(stage, W, H, 20, 200, 110, 110, img);
+    overlay(stage, W, H, 18, YI - 55, 110, 110, img);
 
     const svg = stage.querySelector('svg');
     const fb = svg.querySelector('#fx-fb');
@@ -568,32 +581,34 @@ function setPlayIcon(btn, playing) {
     const stage = root.querySelector('.fx-stage');
     const W = 920, H = 372, STEPS = 50;
 
+    // Left column centred at x=96, right at x=620, model halfway (358); ẑ row at y=88, x row at y=236.
+    // Both branch drops sit 63 from the model on either side (x=220 and x=496).
     stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${markers()}
         ${wire('M668 88H700V16H96V38', 'dino')}
-        <text x="370" y="34" text-anchor="middle" class="lbl lbl--dino">ẑ becomes the self-condition of the next step</text>
-        ${wire('M680 262H712V352H96V298', 'img')}
-        <text x="400" y="344" text-anchor="middle" class="lbl lbl--img">next step</text>
+        <text x="398" y="34" text-anchor="middle" class="lbl lbl--dino">ẑ becomes the self-condition of the next step</text>
+        ${wire('M680 236H712V352H96V298', 'img')}
+        <text x="404" y="344" text-anchor="middle" class="lbl lbl--img">next step</text>
 
         <text x="96" y="152" text-anchor="middle" class="lbl" data-ro="cond">zeros at step 1</text>
         <text x="30" y="240" text-anchor="end" class="m">x<tspan class="sub" dy="4">t</tspan></text>
 
-        ${wire('M144 88H210V140H248', 'dino')}
-        ${wire('M156 200H210V180H248', 'img')}
-        <rect x="250" y="110" width="150" height="100" rx="12" class="model"/>
-        <text x="325" y="165" text-anchor="middle" class="model-t">Model</text>
-        <rect x="290" y="236" width="70" height="22" rx="5" class="chip"/>
-        <text x="325" y="251" text-anchor="middle" class="chip-t">&lt;cls&gt;</text>
-        ${wire('M325 236V212', 'mut')}
+        ${wire('M144 88H220V137H281', 'dino')}
+        ${wire('M220 236V187H281', 'img')}
+        <rect x="283" y="112" width="150" height="100" rx="12" class="model"/>
+        <text x="358" y="167" text-anchor="middle" class="model-t">Model</text>
+        <rect x="323" y="62" width="70" height="22" rx="5" class="chip"/>
+        <text x="358" y="77" text-anchor="middle" class="chip-t">&lt;cls&gt;</text>
+        ${wire('M358 84V110', 'mut')}
 
-        ${wire('M400 135H470V88H570', 'dino')}
+        ${wire('M433 137H496V88H570', 'dino')}
         <text x="620" y="154" text-anchor="middle" class="lbl lbl--dino">prediction ẑ</text>
-        ${wire('M400 180H500V251', 'img')}
-        <text x="492" y="222" text-anchor="end" class="lbl lbl--img">ODE step</text>
-        <text x="492" y="240" text-anchor="end" class="m">v·Δt</text>
-        ${wire('M156 262H489', 'img')}
-        ${plus(500, 262)}
-        ${wire('M509 262H558', 'img', { flow: false })}
-        <text x="620" y="340" text-anchor="middle" class="m">x<tspan class="sub" dy="4">t+Δt</tspan></text>
+        ${wire('M433 187H496V225', 'img')}
+        <text x="504" y="206" class="lbl lbl--img">ODE step</text>
+        <text x="504" y="222" class="m">v·Δt</text>
+        ${wire('M156 236H485', 'img')}
+        ${plus(496, 236)}
+        ${wire('M505 236H558', 'img', { flow: false })}
+        <text x="620" y="318" text-anchor="middle" class="m">x<tspan class="sub" dy="4">t+Δt</tspan></text>
 
         <text x="820" y="146" text-anchor="middle" class="big" data-ro="step">step 1 / 50</text>
         <text x="820" y="174" text-anchor="middle" class="ro ro--acc" data-ro="t">t = 0.00</text>
@@ -604,7 +619,7 @@ function setPlayIcon(btn, playing) {
     const zc = ovCanvas(stage, W, H, 48, 40, 96, 96, 160);
     const xt = ovCanvas(stage, W, H, 36, 176, 120, 120, 192);
     const zo = ovCanvas(stage, W, H, 572, 40, 96, 96, 160);
-    const xn = ovCanvas(stage, W, H, 560, 202, 120, 120, 192);
+    const xn = ovCanvas(stage, W, H, 560, 176, 120, 120, 192);
     const ro = k => stage.querySelector(`[data-ro="${k}"]`);
     const noise = makeNoise(192, 5);
     const xhat = document.createElement('canvas'); xhat.width = xhat.height = 256;
@@ -690,6 +705,7 @@ function setPlayIcon(btn, playing) {
     playBtn.addEventListener('click', () => { if (step >= STEPS - 1) step = 0; setPlaying(!playing); });
     slider.addEventListener('input', () => { setPlaying(false); step = +slider.value; render(); });
     onVisible(root, v => { visible = v; tick(); });
+    document.addEventListener('themechange', render);
 
     makeTabs(root.querySelector('.tabs'), sets, set => load(set));
     if (REDUCED) step = 24;

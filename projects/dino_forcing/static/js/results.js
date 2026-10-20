@@ -1,13 +1,11 @@
 // Results as charts: Dino Forcing highlighted in the accent, every other method in neutral gray.
 
+// CSS variables, so every chart follows the light/dark theme (applied through `style`, not attributes).
 const RV = {
-    df: '#34d399',
-    other: '#6f7680',
-    grid: '#262626',
-    axis: '#3a3a3a',
-    text: '#dededd',
-    muted: '#8a8a8a',
-    faint: '#5f5f5f',
+    df: 'var(--accent)',
+    other: 'var(--other)',
+    other2: 'var(--other-2)',
+    grid: 'var(--grid)',
 };
 
 // ── data (from the paper's tables) ──
@@ -195,8 +193,8 @@ function whenVisible(el, start, resize) {
             'aria-label': 'FID versus training epochs on log axes. Each bubble is a method; Dino Forcing is highlighted.' }, host);
         const defs = s('defs', {}, svg);
         const glow = s('radialGradient', { id: 'sota-glow' }, defs);
-        s('stop', { offset: '0%', 'stop-color': RV.df, 'stop-opacity': 0.5 }, glow);
-        s('stop', { offset: '100%', 'stop-color': RV.df, 'stop-opacity': 0 }, glow);
+        s('stop', { offset: '0%', style: `stop-color:${RV.df}`, 'stop-opacity': 0.5 }, glow);
+        s('stop', { offset: '100%', style: `stop-color:${RV.df}`, 'stop-opacity': 0 }, glow);
         L = {
             zone: s('g', {}, svg), grid: s('g', {}, svg), frontier: s('g', {}, svg),
             pts: s('g', {}, svg), labels: s('g', { class: 'labels' }, svg),
@@ -213,11 +211,11 @@ function whenVisible(el, start, resize) {
         L.grid.innerHTML = '';
         const x = xs(), y = ys(d);
         X_TICKS.forEach(t => {
-            s('line', { x1: x(t), x2: x(t), y1: M.t, y2: H - M.b, stroke: RV.grid }, L.grid);
+            s('line', { x1: x(t), x2: x(t), y1: M.t, y2: H - M.b, style: `stroke:${RV.grid}` }, L.grid);
             s('text', { x: x(t), y: H - M.b + 16, 'text-anchor': 'middle', class: 'tick' }, L.grid, t);
         });
         logTicks(d[0], d[1], 6).forEach(t => {
-            s('line', { x1: M.l, x2: W - M.r, y1: y(t), y2: y(t), stroke: RV.grid }, L.grid);
+            s('line', { x1: M.l, x2: W - M.r, y1: y(t), y2: y(t), style: `stroke:${RV.grid}` }, L.grid);
             s('text', { x: M.l - 8, y: y(t) + 3.5, 'text-anchor': 'end', class: 'tick' }, L.grid, t);
         });
         s('text', { x: W - M.r, y: H - 6, 'text-anchor': 'end', class: 'axis-title' }, L.grid, 'training epochs (log) →');
@@ -273,6 +271,7 @@ function whenVisible(el, start, resize) {
             return false;
         });
     }
+
     function drawFrontier(pts, pos) {
         L.frontier.innerHTML = '';
         const f = frontierOf(pts).map(p => pos.get(p.key));
@@ -382,7 +381,7 @@ function comets(el, facets, { domain = [1.6, 70], yTicks = [2, 3, 5, 10, 20, 50]
         const defs = s('defs', {}, svg);
 
         yTicks.filter(t => t >= domain[0] && t <= domain[1]).forEach(t => {
-            s('line', { x1: left, x2: W - right, y1: y(t), y2: y(t), stroke: RV.grid }, svg);
+            s('line', { x1: left, x2: W - right, y1: y(t), y2: y(t), style: `stroke:${RV.grid}` }, svg);
             s('text', { x: left - 6, y: y(t) + 3.5, 'text-anchor': 'end', class: 'tick' }, svg, t);
         });
         s('text', { x: left - 6, y: 12, 'text-anchor': 'end', class: 'axis-title' }, svg, 'FID');
@@ -398,14 +397,14 @@ function comets(el, facets, { domain = [1.6, 70], yTicks = [2, 3, 5, 10, 20, 50]
         let x0 = left;
         const marks = [];
         facets.forEach((f, fi) => {
-            if (fi) s('line', { x1: x0 - gap / 2, x2: x0 - gap / 2, y1: top - 26, y2: H - bottom + 34, stroke: RV.grid }, svg);
+            if (fi) s('line', { x1: x0 - gap / 2, x2: x0 - gap / 2, y1: top - 26, y2: H - bottom + 34, style: `stroke:${RV.grid}` }, svg);
             if (f.title) s('text', { x: x0 + 4, y: top - 16, class: 'group' }, svg, f.title);
             f.cols.forEach(c => {
                 const cx = x0 + colW / 2, yb = y(c.base.v), yd = y(c.df);
                 const id = `comet-${cometId++}`;
                 const grad = s('linearGradient', { id, gradientUnits: 'userSpaceOnUse', x1: cx, x2: cx, y1: yb, y2: yd }, defs);
-                s('stop', { offset: '0%', 'stop-color': RV.other, 'stop-opacity': 0.15 }, grad);
-                s('stop', { offset: '100%', 'stop-color': c.muted ? '#9aa3ad' : RV.df, 'stop-opacity': 1 }, grad);
+                s('stop', { offset: '0%', style: `stop-color:${RV.other}`, 'stop-opacity': 0.15 }, grad);
+                s('stop', { offset: '100%', style: `stop-color:${c.muted ? RV.other2 : RV.df}`, 'stop-opacity': 1 }, grad);
 
                 const g = s('g', { class: 'comet' + (c.muted ? ' comet--muted' : '') }, svg);
                 s('rect', { x: x0, y: top - 8, width: colW, height: H - bottom - top + 16, class: 'hit' }, g);
@@ -414,7 +413,7 @@ function comets(el, facets, { domain = [1.6, 70], yTicks = [2, 3, 5, 10, 20, 50]
                     s('circle', { cx, cy: y(m.v), r: 4.5, class: 'mid' }, g);
                     s('text', { x: cx - 9, y: y(m.v) + 3.5, 'text-anchor': 'end', class: 'meta' }, g, m.label);
                 });
-                s('circle', { cx, cy: yb, r: 4.5, fill: RV.other, stroke: '#191919', 'stroke-width': 2 }, g);
+                s('circle', { cx, cy: yb, r: 4.5, style: `fill:${RV.other}; stroke:var(--surface)`, 'stroke-width': 2 }, g);
                 if (!ref) s('text', { x: cx + 9, y: yb + 4, class: 'meta' }, g, c.base.v.toFixed(narrow ? 1 : 2));
                 const ripple = s('circle', { cx, cy: yd, r: 6, class: 'ripple' }, g);
                 const head = s('circle', { cx, cy: yb, r: 6, class: 'head' }, g);

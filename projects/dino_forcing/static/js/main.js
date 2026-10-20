@@ -1,3 +1,23 @@
+// ── Theme helpers ──
+const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+// '#rrggbb' + alpha -> rgba() string, for canvas drawing
+function withAlpha(hex, a) {
+    const n = parseInt(hex.replace('#', ''), 16);
+    return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`;
+}
+
+(function () {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        const root = document.documentElement;
+        root.classList.add('theme-anim');
+        window.setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+        setTimeout(() => root.classList.remove('theme-anim'), 350);
+    });
+})();
+
+
 // ── ODE flow-path background (same as arijit-hub.github.io) ──
 (function () {
     const canvas = document.getElementById('ode-canvas');
@@ -6,7 +26,8 @@
 
     const ctx = canvas.getContext('2d');
     const N = 30;
-    const [r, g, b] = [52, 211, 153];
+    let accent = cssVar('--accent');
+    document.addEventListener('themechange', () => { accent = cssVar('--accent'); });
     let W, H, paths, pinchLX, pinchRX;
 
     function build() {
@@ -68,7 +89,7 @@
 
         paths.forEach(p => {
             drawPath(p);
-            ctx.strokeStyle = `rgba(${r},${g},${b},0.10)`;
+            ctx.strokeStyle = withAlpha(accent, 0.10);
             ctx.lineWidth = 1;
             ctx.stroke();
 
@@ -76,7 +97,7 @@
             const fade = Math.sin(p.t * Math.PI);
             ctx.beginPath();
             ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${r},${g},${b},${0.15 + 0.50 * fade})`;
+            ctx.fillStyle = withAlpha(accent, 0.15 + 0.50 * fade);
             ctx.fill();
 
             p.t = (p.t + p.speed) % 1;
@@ -96,11 +117,11 @@
     const NS = 'http://www.w3.org/2000/svg';
 
     const series = [
-        { name: 'REPA', color: '#82aadc', pts: [[20,19.4],[40,11.1],[80,7.9],[800,5.9]] },
-        { name: 'ReDi', color: '#f0a875', pts: [[20,23.1],[40,12.6],[60,9.7],[80,7.5],[800,3.3]] },
-        { name: 'RAE',  color: '#c3a6ee', pts: [[20,31],[32,8.26],[48,5.90],[80,4.28],[200,3.1],[260,2.7],[400,2.5],[760,2.39]] },
-        { name: 'REG',  color: '#ee9a9a', pts: [[20,8.9],[40,5.0],[80,3.4],[200,2.7],[480,2.2],[800,1.8]] },
-        { name: 'DF (ours)', color: '#34d399', pts: [[20,4.78],[40,3.08],[50,2.88],[80,2.61],[100,2.47]], ours: true },
+        { name: 'REPA', color: 'var(--s-repa)', pts: [[20,19.4],[40,11.1],[80,7.9],[800,5.9]] },
+        { name: 'ReDi', color: 'var(--s-redi)', pts: [[20,23.1],[40,12.6],[60,9.7],[80,7.5],[800,3.3]] },
+        { name: 'RAE',  color: 'var(--s-rae)', pts: [[20,31],[32,8.26],[48,5.90],[80,4.28],[200,3.1],[260,2.7],[400,2.5],[760,2.39]] },
+        { name: 'REG',  color: 'var(--s-reg)', pts: [[20,8.9],[40,5.0],[80,3.4],[200,2.7],[480,2.2],[800,1.8]] },
+        { name: 'DF (ours)', color: 'var(--accent)', pts: [[20,4.78],[40,3.08],[50,2.88],[80,2.61],[100,2.47]], ours: true },
     ];
 
     const W = 520, H = 400, m = { l: 46, r: 14, t: 14, b: 46 };
@@ -140,16 +161,16 @@
         el('polyline', {
             class: 'draw', pathLength: 1,
             points: s.pts.map(([x, y]) => `${lx(x)},${ly(y)}`).join(' '),
-            fill: 'none', stroke: s.color, 'stroke-width': s.ours ? 3.5 : 2.5,
+            fill: 'none', 'stroke-width': s.ours ? 3.5 : 2.5,
             'stroke-linejoin': 'round', 'stroke-linecap': 'round',
-            style: `transition-delay: ${s.ours ? 0.9 : 0}s`
+            style: `stroke: ${s.color}; transition-delay: ${s.ours ? 0.9 : 0}s`
         }, g);
         s.pts.forEach(([x, y]) => {
-            const c = el('circle', { class: 'pt', cx: lx(x), cy: ly(y), r: s.ours ? 4.5 : 3.5, fill: s.color, stroke: '#191919', 'stroke-width': 1.5 }, g);
+            const c = el('circle', { class: 'pt', cx: lx(x), cy: ly(y), r: s.ours ? 4.5 : 3.5, 'stroke-width': 1.5, style: `fill: ${s.color}; stroke: var(--surface)` }, g);
             el('title', {}, c).textContent = `${s.name}: FID ${y} @ ${x} epochs`;
         });
     });
-    el('text', { class: 'final', x: lx(100) + 9, y: ly(2.47) - 8, fill: '#34d399', 'font-size': 14, 'font-weight': 700 }).textContent = '2.47';
+    el('text', { class: 'final', x: lx(100) + 9, y: ly(2.47) - 8, style: 'fill: var(--accent)', 'font-size': 14, 'font-weight': 700 }).textContent = '2.47';
 
     const io = new IntersectionObserver(es => es.forEach(e => {
         if (e.isIntersecting) { svg.classList.add('drawn'); io.disconnect(); }
